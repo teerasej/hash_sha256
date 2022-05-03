@@ -1,6 +1,6 @@
 # hash_sha256
 
-A new Flutter project.
+A flutter project that demonstrate how hash work. I put a simple form to hash input data into SHA256 hash.
 
 ## Getting Started
 
