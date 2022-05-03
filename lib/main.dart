@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Hash SHA256',
+      title: 'Nextflow: Hash SHA256',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
