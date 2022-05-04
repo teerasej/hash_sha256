@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hash_sha256/pages/hash/hash_page.dart';
 import 'package:hash_sha256/pages/nonce/nonce_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyApp());
@@ -52,10 +54,63 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
-        body: TabBarView(
+        body: Column(
           children: [
-            HashPage(),
-            NoncePage(),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  HashPage(),
+                  NoncePage(),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: 'Nextflow.in.th - click for more: ',
+                    ),
+                    TextSpan(
+                      style: const TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => {
+                              launchUrl(
+                                Uri.https(
+                                  'nextflow.in.th',
+                                  '/blockchain-for-developer-training-workshop',
+                                ),
+                              )
+                            },
+                      text: 'Blockchain Application Development Training',
+                    ),
+                    const TextSpan(
+                      text: ' | ',
+                    ),
+                    TextSpan(
+                      style: const TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.blue,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => {
+                              launchUrl(
+                                Uri.https(
+                                  'nextflow.in.th',
+                                  'course/google-flutter-for-web-dev',
+                                ),
+                              )
+                            },
+                      text: 'Flutter Training',
+                    )
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

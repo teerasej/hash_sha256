@@ -18,86 +18,31 @@ class _HashPageState extends State<HashPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: SizedBox(
-                width: 500,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text(
-                      'Data:',
-                    ),
-                    TextField(
-                      onChanged: (value) {
-                        var bytes = utf8.encode(value);
+      child: Center(
+        child: SizedBox(
+          width: 500,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'Data:',
+              ),
+              TextField(
+                onChanged: (value) {
+                  var bytes = utf8.encode(value);
 
-                        setState(() {
-                          hashed = sha256.convert(bytes).toString();
-                        });
-                      },
-                    ),
-                    Text(
-                      hashed,
-                      style: Theme.of(context).textTheme.headline4,
-                    ),
-                  ],
-                ),
+                  setState(() {
+                    hashed = sha256.convert(bytes).toString();
+                  });
+                },
               ),
-            ),
-          ),
-          BottomAppBar(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: RichText(
-                text: TextSpan(
-                  children: [
-                    const TextSpan(
-                      text: 'Nextflow.in.th - click for more: ',
-                    ),
-                    TextSpan(
-                      style: const TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colors.blue,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () => {
-                              launchUrl(
-                                Uri.https(
-                                  'nextflow.in.th',
-                                  '/blockchain-for-developer-training-workshop',
-                                ),
-                              )
-                            },
-                      text: 'Blockchain Application Development Training',
-                    ),
-                    const TextSpan(
-                      text: ' | ',
-                    ),
-                    TextSpan(
-                      style: const TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: Colors.blue,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () => {
-                              launchUrl(
-                                Uri.https(
-                                  'nextflow.in.th',
-                                  'course/google-flutter-for-web-dev',
-                                ),
-                              )
-                            },
-                      text: 'Flutter Training',
-                    )
-                  ],
-                ),
+              Text(
+                hashed,
+                style: Theme.of(context).textTheme.headline4,
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
