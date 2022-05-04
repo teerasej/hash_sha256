@@ -30,7 +30,9 @@ class _HashPageState extends State<HashPage> {
               ),
               TextField(
                 onChanged: (value) {
-                  hashed = HashUtil.hashSHA264(value);
+                  setState(() {
+                    hashed = HashUtil.hashSHA264(value, '');
+                  });
                 },
               ),
               Text(
