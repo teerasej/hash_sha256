@@ -47,7 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          bottom: TabBar(
+          title: const Text('Nextflow Blockchain training - tools'),
+          bottom: const TabBar(
             tabs: [
               Tab(text: 'Hash'),
               Tab(text: 'Nounce'),
