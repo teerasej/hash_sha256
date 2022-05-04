@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hash_sha256/utils/hash_util.dart';
 
 class NoncePage extends StatefulWidget {
@@ -14,15 +15,30 @@ class _NoncePageState extends State<NoncePage> {
   String _data = '';
   int _nonce = 0;
   String _hashed = '...';
+  bool _mining = false;
 
   void doHash() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
       setState(() {
-        _hashed = HashUtil.hashSHA264(_data + _nonce.toString());
+        _hashed = HashUtil.hashSHA264(_data, _nonce.toString());
       });
     }
+  }
+
+  void mindHash() async {
+    var result = await HashUtil.hashWithZeroCountCondition(
+      _data,
+      3,
+      nonce: _nonce,
+    );
+
+    setState(() {
+      _mining = false;
+      _hashed = result.hashed;
+      _nonce = result.nonce;
+    });
   }
 
   @override
@@ -42,16 +58,16 @@ class _NoncePageState extends State<NoncePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'A Block',
                       style: TextStyle(
                         fontSize: 24,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text('Data:'),
+                    const Text('Data:'),
                     TextFormField(
                       maxLines: 10,
                       onChanged: (value) => doHash(),
@@ -63,11 +79,14 @@ class _NoncePageState extends State<NoncePage> {
                         return null;
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text('Nounce:'),
+                    const Text('Nounce:'),
                     TextFormField(
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      controller: TextEditingController(text: '$_nonce'),
                       onChanged: (value) => doHash(),
                       onSaved: (newValue) =>
                           _nonce = int.parse(newValue ?? '0'),
@@ -81,8 +100,51 @@ class _NoncePageState extends State<NoncePage> {
                     SizedBox(
                       height: 10,
                     ),
+                    // const Text(
+                    //     'Zero number in hash\'prefix to make hash valid:'),
+                    // TextFormField(
+                    //   keyboardType: TextInputType.number,
+                    //   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    //   controller: TextEditingController(text: '$_nonce'),
+                    //   onChanged: (value) => doHash(),
+                    //   onSaved: (newValue) =>
+                    //       _nonce = int.parse(newValue ?? '0'),
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Please fill the form';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
+                    // SizedBox(
+                    //   height: 10,
+                    // ),
                     Text('Hash:'),
                     Text(_hashed),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: 75,
+                      child: ElevatedButton(
+                        onPressed: !_mining
+                            ? () {
+                                setState(() {
+                                  _mining = true;
+                                  mindHash();
+                                });
+                              }
+                            : null,
+                        child: Row(
+                          children: [
+                            const Text('Mine'),
+                            _mining
+                                ? const CircularProgressIndicator()
+                                : Container()
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
