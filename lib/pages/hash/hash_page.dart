@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:hash_sha256/utils/hash_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HashPage extends StatefulWidget {
@@ -29,11 +30,7 @@ class _HashPageState extends State<HashPage> {
               ),
               TextField(
                 onChanged: (value) {
-                  var bytes = utf8.encode(value);
-
-                  setState(() {
-                    hashed = sha256.convert(bytes).toString();
-                  });
+                  hashed = HashUtil.hashSHA264(value);
                 },
               ),
               Text(
