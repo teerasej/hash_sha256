@@ -10,6 +10,50 @@ class NoncePage extends StatefulWidget {
 class _NoncePageState extends State<NoncePage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 600,
+          child: Card(
+            color: Colors.grey[200],
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Form(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'A Block',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text('Nounce:'),
+                    TextFormField(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text('Data:'),
+                    TextFormField(
+                      maxLines: 10,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text('Hash:'),
+                    Text('...'),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
